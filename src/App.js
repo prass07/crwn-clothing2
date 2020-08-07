@@ -14,13 +14,14 @@ import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selector';
 import CheckoutPage from './pages/checkout/checkout.component';
 
+
 class App extends React.Component {
  
-  unsubscribeFromAuth = null
+  unsubscribeFromAuth = null;
 
   componentDidMount() {
-
-    const{setCurrentUser} = this.props
+   
+    const{ setCurrentUser } = this.props
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if(userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
@@ -48,7 +49,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path ='/' component = {HomePage} />
           <Route path = '/shop' component = {ShopPage} />
-          <Route path = '/checkout' component = {CheckoutPage} />
+          <Route exact path = '/checkout' component = {CheckoutPage} />
           <Route 
             exact path = '/signin' 
             render = {() => 
@@ -66,11 +67,11 @@ class App extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
-})
+  currentUser: selectCurrentUser,
+});
 
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))
-})
+});
 
 export default connect(mapStateToProps,mapDispatchToProps)(App);
